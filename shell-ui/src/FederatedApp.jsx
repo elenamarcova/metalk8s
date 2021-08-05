@@ -14,7 +14,6 @@ import Loader from '@scality/core-ui/dist/components/loader/Loader.component';
 import ReactDOM from 'react-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ErrorPage500 from '@scality/core-ui/dist/components/error-pages/ErrorPage500.component';
-import ScrollbarWrapper from '@scality/core-ui/dist/components/scrollbarwrapper/ScrollbarWrapper.component';
 import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 import type { Theme } from './navbar/theme';
 import { SolutionsNavbar, type Browser } from './navbar';
@@ -128,8 +127,10 @@ function ProtectedFederatedRoute({
 
 function InternalApp(): Node {
   const navbarConfigUrl = '/shell/config.json'; // TODO find a way to inject this
-  const [federatedComponent, setFederatedComponent] =
-    useState<FederatedComponentProps | null>(null);
+  const [
+    federatedComponent,
+    setFederatedComponent,
+  ] = useState<FederatedComponentProps | null>(null);
 
   const history = useMemo(() => {
     const history = createBrowserHistory({});
@@ -193,14 +194,12 @@ function WithInitFederationProviders({ children }: { children: Node }) {
 
 export default function App(): Node {
   return (
-    <ScrollbarWrapper>
-      <QueryClientProvider client={queryClient}>
-        <ShellConfigProvider shellConfigUrl={'/shell/config.json'}>
-          <WithInitFederationProviders>
-            <InternalApp />
-          </WithInitFederationProviders>
-        </ShellConfigProvider>
-      </QueryClientProvider>
-    </ScrollbarWrapper>
+    <QueryClientProvider client={queryClient}>
+      <ShellConfigProvider shellConfigUrl={'/shell/config.json'}>
+        <WithInitFederationProviders>
+          <InternalApp />
+        </WithInitFederationProviders>
+      </ShellConfigProvider>
+    </QueryClientProvider>
   );
 }
