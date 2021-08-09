@@ -8,6 +8,9 @@
 - Bump etcd version to 3.5.0-0
   (PR[#](https://github.com/scality/metalk8s/pull/))
 
+- Bump CoreDNS version to v1.8.4
+  (PR[#](https://github.com/scality/metalk8s/pull/))
+
 ## Release 2.10.2 (in development)
 
 ## Release 2.10.1
