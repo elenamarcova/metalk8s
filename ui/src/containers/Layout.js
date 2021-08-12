@@ -17,6 +17,7 @@ import CreateVolume from './CreateVolume';
 import { useTypedSelector } from '../hooks';
 import { Suspense } from 'react';
 import AlertProvider from './AlertProvider';
+import ConfigProvider from './ConfigProvider';
 
 const NodeCreateForm = React.lazy(() => import('./NodeCreateForm'));
 const NodePage = React.lazy(() => import('./NodePage'));
@@ -123,48 +124,54 @@ const Layout = () => {
     <CoreUILayout
       sidebar={isUserLoaded && !isAlertsPage ? sidebarConfig : undefined}
     >
-      <AlertProvider>
-        <Notifications
-          notifications={notifications}
-          onDismiss={removeNotification}
-        />
-        <Suspense fallback={<Loader size="massive" centered={true} />}>
-          <Switch>
-            <PrivateRoute
-              exact
-              path="/"
-              component={() => <Redirect to="/nodes" />}
-            />
-            <PrivateRoute
-              exact
-              path="/nodes/create"
-              component={NodeCreateForm}
-            />
-            <PrivateRoute
-              path={`/nodes/:id/createVolume`}
-              component={CreateVolume}
-            />
-            <PrivateRoute
-              exact
-              path="/volumes/createVolume"
-              component={CreateVolume}
-            />
-            <PrivateRoute path="/nodes" component={NodePage} />
-            <PrivateRoute path="/volumes/:name?" component={VolumePage} />
-            <PrivateRoute exact path="/about" component={About} />
-            <PrivateRoute exact path="/alerts" component={AlertPage} />
+      <ConfigProvider>
+        <AlertProvider>
+          <Notifications
+            notifications={notifications}
+            onDismiss={removeNotification}
+          />
+          <Suspense fallback={<Loader size="massive" centered={true} />}>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/"
+                component={() => <Redirect to="/nodes" />}
+              />
+              <PrivateRoute
+                exact
+                path="/nodes/create"
+                component={NodeCreateForm}
+              />
+              <PrivateRoute
+                path={`/nodes/:id/createVolume`}
+                component={CreateVolume}
+              />
+              <PrivateRoute
+                exact
+                path="/volumes/createVolume"
+                component={CreateVolume}
+              />
+              <PrivateRoute path="/nodes" component={NodePage} />
+              <PrivateRoute path="/volumes/:name?" component={VolumePage} />
+              <PrivateRoute exact path="/about" component={About} />
+              <PrivateRoute exact path="/alerts" component={AlertPage} />
 
-            {api && api.flags && api.flags.includes('dashboard') && (
-              <PrivateRoute exact path="/dashboard" component={DashboardPage} />
-            )}
-            <Route
-              component={() => (
-                <ErrorPage404 data-cy="sc-error-page404" locale={language} />
+              {api && api.flags && api.flags.includes('dashboard') && (
+                <PrivateRoute
+                  exact
+                  path="/dashboard"
+                  component={DashboardPage}
+                />
               )}
-            />
-          </Switch>
-        </Suspense>
-      </AlertProvider>
+              <Route
+                component={() => (
+                  <ErrorPage404 data-cy="sc-error-page404" locale={language} />
+                )}
+              />
+            </Switch>
+          </Suspense>
+        </AlertProvider>
+      </ConfigProvider>
     </CoreUILayout>
   );
 };

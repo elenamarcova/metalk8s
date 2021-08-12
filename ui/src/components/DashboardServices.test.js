@@ -46,6 +46,11 @@ jest.mock('../containers/AlertProvider', () => ({
   },
 }));
 
+jest.mock('../containers/ConfigProvider', () => ({
+  __esModule: true,
+  default: ({ children }) => <>{children}</>,
+}));
+
 describe('the dashboard inventory panel', () => {
   test('displays the services panel and display all 8 green statuses when no alerts are present', async () => {
     // Have to any type jest.fn function to avoid Flow warning for mockImplementation()

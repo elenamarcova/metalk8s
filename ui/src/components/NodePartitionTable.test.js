@@ -103,6 +103,11 @@ const server = setupServer(
   ),
 );
 
+jest.mock('../containers/ConfigProvider', () => ({
+  __esModule: true,
+  default: ({ children }) => <>{children}</>,
+}));
+
 describe('the system partition table', () => {
   beforeAll(() => {
     server.listen();

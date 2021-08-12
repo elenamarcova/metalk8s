@@ -44,6 +44,11 @@ jest.mock('../containers/AlertProvider', () => ({
   },
 }));
 
+jest.mock('../containers/ConfigProvider', () => ({
+  __esModule: true,
+  default: ({ children }) => <>{children}</>,
+}));
+
 describe('the dashboard inventory panel', () => {
   beforeAll(() => {
     // Have to any type jest.fn function to avoid Flow warning for mockImplementation()
